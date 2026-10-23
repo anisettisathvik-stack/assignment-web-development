@@ -1,0 +1,613 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Academic Dashboard</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f4f6fb;
+  color: #25304a;
+}
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 245px;
+  background: #202b46;
+  color: white;
+  padding: 25px 16px;
+  flex-shrink: 0;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: bold;
+  margin: 5px 10px 35px;
+  color: #91a8ff;
+}
+
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  color: #d1d8e9;
+  padding: 14px;
+  margin: 7px 0;
+  border-radius: 8px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+  background: #4355a4;
+  color: white;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  background: white;
+  padding: 20px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 10px #00000008;
+}
+
+.topbar h2 {
+  font-size: 23px;
+}
+
+.student-mini {
+  font-size: 14px;
+  color: #65708a;
+  text-align: right;
+}
+
+.content {
+  padding: 26px;
+  max-width: 1500px;
+  margin: auto;
+}
+
+.welcome {
+  background: linear-gradient(120deg, #4355a4, #7889e7);
+  color: white;
+  border-radius: 14px;
+  padding: 27px;
+  margin-bottom: 24px;
+}
+
+.welcome h1 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.welcome p {
+  line-height: 1.6;
+}
+
+.student-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+  margin-bottom: 28px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 21px;
+  box-shadow: 0 3px 15px #19274808;
+}
+
+.stat-title {
+  color: #737d93;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.stat-value {
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.stat-note {
+  margin-top: 9px;
+  color: #18855e;
+  font-size: 12px;
+}
+
+.section {
+  margin-bottom: 28px;
+  scroll-margin-top: 20px;
+}
+
+.section h2 {
+  font-size: 21px;
+  margin-bottom: 17px;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  text-align: left;
+  padding: 15px 12px;
+  border-bottom: 1px solid #edf0f6;
+  font-size: 13px;
+}
+
+th {
+  background: #e9edfb;
+  color: #35436e;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 10px;
+}
+
+.progress-row {
+  margin-bottom: 23px;
+}
+
+.progress-heading {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 9px;
+  gap: 10px;
+}
+
+.progress {
+  height: 9px;
+  background: #e8ebf4;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: #5668d8;
+  border-radius: 10px;
+}
+
+.green { background: #20a477; }
+.orange { background: #efa443; }
+
+.badge {
+  display: inline-block;
+  background: #e0f6ec;
+  color: #16835b;
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+}
+
+.exam-item, .announcement {
+  padding: 15px 0;
+  border-bottom: 1px solid #edf0f6;
+}
+
+.exam-item:last-child, .announcement:last-child {
+  border-bottom: none;
+}
+
+.exam-item h3, .announcement h3 {
+  font-size: 15px;
+  margin-bottom: 7px;
+}
+
+.exam-item p, .announcement p {
+  color: #737d93;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.date {
+  color: #5668d8;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.subject-card {
+  border-left: 4px solid #6477e8;
+}
+
+.subject-card h3 {
+  margin-bottom: 9px;
+  font-size: 16px;
+}
+
+.subject-card p {
+  color: #737d93;
+  font-size: 13px;
+  margin-bottom: 13px;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #7b8498;
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 14px;
+  }
+
+  .logo {
+    margin: 5px 8px 15px;
+  }
+
+  .sidebar nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+  }
+
+  .sidebar a {
+    white-space: nowrap;
+    margin: 0;
+    padding: 11px;
+    font-size: 13px;
+  }
+
+  .topbar {
+    padding: 17px;
+  }
+
+  .topbar h2 {
+    font-size: 19px;
+  }
+
+  .content {
+    padding: 15px;
+  }
+
+  .welcome {
+    padding: 22px;
+  }
+
+  .welcome h1 {
+    font-size: 24px;
+  }
+
+  .student-details {
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    gap: 12px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .stat-value {
+    font-size: 23px;
+  }
+}
+
+@media (max-width: 380px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="logo">🎓 EduTrack</div>
+    <nav>
+      <a href="#dashboard" class="active">🏠 Dashboard</a>
+      <a href="#results">📊 Semester Results</a>
+      <a href="#attendance">📅 Attendance</a>
+      <a href="#subjects">📚 Subjects</a>
+      <a href="#exams">📝 Exam Schedule</a>
+      <a href="#announcements">📢 Announcements</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h2>Student Dashboard</h2>
+      <div class="student-mini">
+        <strong>Student Portal</strong><br>
+        Academic Year 2026–27
+      </div>
+    </header>
+
+    <div class="content">
+
+      <section class="welcome" id="dashboard">
+        <h1>Welcome, Sathvik! 👋</h1>
+        <p>Here is your academic overview. Keep learning and work towards your goals.</p>
+        <div class="student-details">
+          <span>👤 Student ID: STU2026001</span>
+          <span>🎓 Course: B.Tech CSE</span>
+          <span>📘 Semester: I</span>
+          <span>🏫 Section: A</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <p class="stat-title">Current CGPA</p>
+          <div class="stat-value">8.7</div>
+          <p class="stat-note">Out of 10.0</p>
+        </div>
+        <div class="card">
+          <p class="stat-title">Attendance</p>
+          <div class="stat-value">92%</div>
+          <p class="stat-note">Above 75% requirement</p>
+        </div>
+        <div class="card">
+          <p class="stat-title">Subjects</p>
+          <div class="stat-value">6</div>
+          <p class="stat-note">Current semester</p>
+        </div>
+        <div class="card">
+          <p class="stat-title">Upcoming Exams</p>
+          <div class="stat-value">3</div>
+          <p class="stat-note">Check exam schedule</p>
+        </div>
+      </section>
+
+      <section class="section two-column" id="results">
+        <div>
+          <h2>Semester Results</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Semester</th>
+                  <th>SGPA</th>
+                  <th>Credits</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Semester I</td>
+                  <td>8.7</td>
+                  <td>22</td>
+                  <td><span class="badge">Passed</span></td>
+                </tr>
+                <tr>
+                  <td>Semester II</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>Upcoming</td>
+                </tr>
+                <tr>
+                  <td>Semester III</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>Upcoming</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" id="attendance">
+          <h2>Attendance Overview</h2>
+
+          <div class="progress-row">
+            <div class="progress-heading">
+              <span>Mathematics</span><strong>95%</strong>
+            </div>
+            <div class="progress"><div class="bar green" style="width:95%"></div></div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-heading">
+              <span>Programming</span><strong>90%</strong>
+            </div>
+            <div class="progress"><div class="bar" style="width:90%"></div></div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-heading">
+              <span>Physics</span><strong>88%</strong>
+            </div>
+            <div class="progress"><div class="bar" style="width:88%"></div></div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-heading">
+              <span>English</span><strong>96%</strong>
+            </div>
+            <div class="progress"><div class="bar green" style="width:96%"></div></div>
+          </div>
+
+          <div class="progress-row">
+            <div class="progress-heading">
+              <span>Engineering Lab</span><strong>75%</strong>
+            </div>
+            <div class="progress"><div class="bar orange" style="width:75%"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="subjects">
+        <h2>My Subjects</h2>
+        <div class="subject-grid">
+          <div class="card subject-card">
+            <h3>📐 Mathematics</h3>
+            <p>Subject Code: MATH101</p>
+            <p>Faculty: Dr. Priya</p>
+            <span class="badge">In Progress</span>
+          </div>
+          <div class="card subject-card">
+            <h3>💻 Programming in C</h3>
+            <p>Subject Code: CSE101</p>
+            <p>Faculty: Mr. Rahul</p>
+            <span class="badge">In Progress</span>
+          </div>
+          <div class="card subject-card">
+            <h3>⚛️ Engineering Physics</h3>
+            <p>Subject Code: PHY101</p>
+            <p>Faculty: Dr. Kumar</p>
+            <span class="badge">In Progress</span>
+          </div>
+          <div class="card subject-card">
+            <h3>🌐 Web Development</h3>
+            <p>Subject Code: CSE102</p>
+            <p>Faculty: Ms. Sneha</p>
+            <span class="badge">In Progress</span>
+          </div>
+          <div class="card subject-card">
+            <h3>🗣️ English</h3>
+            <p>Subject Code: ENG101</p>
+            <p>Faculty: Ms. Anjali</p>
+            <span class="badge">In Progress</span>
+          </div>
+          <div class="card subject-card">
+            <h3>🔬 Engineering Lab</h3>
+            <p>Subject Code: LAB101</p>
+            <p>Faculty: Mr. Arjun</p>
+            <span class="badge">In Progress</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section two-column" id="exams">
+        <div class="card">
+          <h2>Examination Schedule</h2>
+
+          <div class="exam-item">
+            <div class="date">10 NOV 2026</div>
+            <h3>Engineering Mathematics</h3>
+            <p>9:30 AM – 12:30 PM · Exam Hall A</p>
+          </div>
+
+          <div class="exam-item">
+            <div class="date">12 NOV 2026</div>
+            <h3>Programming in C</h3>
+            <p>9:30 AM – 12:30 PM · Exam Hall B</p>
+          </div>
+
+          <div class="exam-item">
+            <div class="date">14 NOV 2026</div>
+            <h3>Engineering Physics</h3>
+            <p>9:30 AM – 12:30 PM · Exam Hall A</p>
+          </div>
+        </div>
+
+        <div class="card" id="announcements">
+          <h2>Announcements</h2>
+
+          <div class="announcement">
+            <h3>📢 Internal Examination</h3>
+            <p>Prepare for the upcoming internal examinations. Check your timetable.</p>
+            <div class="date">Academic Notice</div>
+          </div>
+
+          <div class="announcement">
+            <h3>📚 Library Reminder</h3>
+            <p>Students can use the library for additional reference materials.</p>
+            <div class="date">Student Resources</div>
+          </div>
+
+          <div class="announcement">
+            <h3>💻 Lab Assignments</h3>
+            <p>Complete your programming and web development lab assignments.</p>
+            <div class="date">Course Update</div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>
+      © 2026 EduTrack Student Portal | Academic Dashboard
+    </footer>
+  </main>
+</div>
+
+<script>
+const navLinks = document.querySelectorAll(".sidebar a");
+
+navLinks.forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.forEach(item => item.classList.remove("active"));
+    link.classList.add("active");
+  });
+});
+</script>
+
+</body>
+</html>
